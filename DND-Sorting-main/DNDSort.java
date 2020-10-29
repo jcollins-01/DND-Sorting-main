@@ -5,7 +5,11 @@ import java.io.FileNotFoundException;
 public class DNDSort {
     public static void main(String[] args) throws FileNotFoundException
     {
-        File file = new File("characters.txt"); 
+        //Currently, when our file reads in data, it doubles the last stat of a character and
+        //assigns it to the character after them. Also, the first character starts with a null
+        //value for stats.
+        
+        File file = new File("DND-Sorting-main\\characters.txt"); 
         Scanner scan = new Scanner(file); 
 
         //One big HashMap that sorts them by chara name, first inner HashMap sorts by their type,
@@ -38,13 +42,19 @@ public class DNDSort {
                 testNextChar = line.charAt(i + 1);
 
                 if(testChar == ' ' && testNextChar == '-')
-                    charaType = line.substring(0, i - 1);
+                    charaType = line.substring(0, i);
+                //If we find our name, we can break out of the loop since it's the last piece we
+                //need from a line with a name in it. Same principle with other break below.
                 else if(testChar == '-' && testNextChar == ' ')
-                    charaName = line.substring(i + 2, line.length() - 1);
+                {
+                    charaName = line.substring(i + 2, line.length());
+                    break;
+                }
                 else if(testChar == ':')
                 {
-                    stat = line.substring(0, i - 1);
-                    statLevel = Integer.parseInt(line.substring(i + 1, line.length() - 1));
+                    stat = line.substring(0, i);
+                    statLevel = Integer.parseInt(line.substring(i + 1, line.length()));
+                    break;
                 }
                 else
                     continue;
