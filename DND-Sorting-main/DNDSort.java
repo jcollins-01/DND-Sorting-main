@@ -8,24 +8,40 @@ public class DNDSort
     //second inner HashMap sorts by the stat and the stat has an associated num value
     //      *Chara name      *Chara type      *Stat   *Stat level      
     public static HashMap <String, HashMap <String, HashMap <String, Integer>>> characters = new HashMap<String, HashMap <String, HashMap <String, Integer>>>();
-    //public static HashMap <String, Integer> tempHashInner = new HashMap <String, Integer>();
-    //public static HashMap <String, HashMap<String, Integer>> tempHashOuter = new HashMap <String, HashMap<String, Integer>>();
-    
+    public static HashMap <String, Integer> barbarian = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> bard = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> cleric = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> druid = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> fighter = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> wizard = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> monk = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> paladin = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> ranger = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> sorcerer = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> thief = new HashMap <String, Integer>();
+    public static HashMap <String, Integer> warlock = new HashMap <String, Integer>();
     public static void main(String[] args) throws FileNotFoundException
     {   
         readValues();
-        System.out.println(characters.toString());
+        //System.out.println(characters.toString());
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter the skill you would like to sort the D&D Characters by:");
+        String response = scan.nextLine();
+
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+
+        while(!response.equals("recursion!"))
+        {
+            addToPQ(response, pq);
+            pq.clear();
+        }
+        System.out.println("Thanks for testing it out!");
     }
 
     public static void readValues() throws FileNotFoundException
     {
         File file = new File("DND-Sorting-main\\characters.txt"); 
         Scanner scan = new Scanner(file); 
-
-        //One big HashMap that sorts them by chara name, first inner HashMap sorts by their type,
-        //second inner HashMap sorts by the stat and the stat has an associated num value
-        //      *Chara name      *Chara type      *Stat   *Stat level      
-        //HashMap <String, HashMap <String, HashMap <String, Integer>>> characters = new HashMap<String, HashMap <String, HashMap <String, Integer>>>();
         
         //Values to place in our HashMap
         String charaName = "";
@@ -51,8 +67,13 @@ public class DNDSort
                 testChar = line.charAt(i);
                 if(i != line.length() - 1)
                     testNextChar = line.charAt(i + 1);
+                //Fixes a recurring error of i not resetting to 0 at lines with stats and statLevels
                 else
+                {
                     testNextChar = '%';
+                    i = line.indexOf(':');
+                    testChar = line.charAt(i);
+                }
 
                 if(testChar == ' ' && testNextChar == '-')
                     charaType = line.substring(0, i);
@@ -85,27 +106,200 @@ public class DNDSort
                     }
                 }
             } //End of for-loop
-            //System.out.println(charaName + ", " + charaType + " : " + stat + " (" + statLevel + ")");
-            //Call a method to place the found values for each chara in our HashMap
+            //Call a method to place the found values for each character in our HashMap
             insertValues(charaName, charaType, tempHashInner);
         } //End of while loop
     }
-    //      *Chara name      *Chara type      *Stat   *Stat level
-    //HashMap <String, HashMap <String, HashMap <String, Integer>>> characters
+
     public static void insertValues(String name, String type, HashMap <String, Integer> tempHashInner)
     {
-        //HashMap <String, Integer> tempHashInner = new HashMap <String, Integer>();
         HashMap <String, HashMap<String, Integer>> tempHashOuter = new HashMap <String, HashMap<String, Integer>>();
-        
-        //Copy data from init to temp, clear init, temp will be overwritten each time init comes back with
-        //new info, change argument variable name to initHashInner
-
-        //Some kind of loop that for each specific type value, it adds the new tempHashInner?
-
-
-        //tempHashInner.put(stat, level);
-        tempHashOuter.put(type, tempHashInner);
+        //Switch statement that puts the innerHM into different outerHM based on the type
+        switch(type)
+        {
+            case "Barbarian":
+            {
+                barbarian.putAll(tempHashInner);
+                tempHashOuter.put(type, barbarian);
+                break;
+            }
+            case "Bard":
+            {
+                bard.putAll(tempHashInner);
+                tempHashOuter.put(type, bard);
+                break;
+            }
+            case "Cleric":
+            {
+                cleric.putAll(tempHashInner);
+                tempHashOuter.put(type, cleric);
+                break;
+            }
+            case "Druid":
+            {
+                druid.putAll(tempHashInner);
+                tempHashOuter.put(type, druid);
+                break;
+            }
+            case "Fighter":
+            {
+                fighter.putAll(tempHashInner);
+                tempHashOuter.put(type, fighter);
+                break;
+            }
+            case "Wizard":
+            {
+                wizard.putAll(tempHashInner);
+                tempHashOuter.put(type, wizard);
+                break;
+            }
+            case "Monk":
+            {
+                monk.putAll(tempHashInner);
+                tempHashOuter.put(type, monk);
+                break;
+            }
+            case "Paladin":
+            {
+                paladin.putAll(tempHashInner);
+                tempHashOuter.put(type, paladin);
+                break;
+            }
+            case "Ranger":
+            {
+                ranger.putAll(tempHashInner);
+                tempHashOuter.put(type, ranger);
+                break;
+            }
+            case "Sorcerer":
+            {
+                sorcerer.putAll(tempHashInner);
+                tempHashOuter.put(type, sorcerer);
+                break;
+            }
+            case "Thief":
+            {
+                thief.putAll(tempHashInner);
+                tempHashOuter.put(type, thief);
+                break;
+            }
+            case "Warlock":
+            {
+                warlock.putAll(tempHashInner);
+                tempHashOuter.put(type, warlock);
+                break;
+            }
+        }//End of switch statement
         characters.put(name, tempHashOuter);
+    }//End of insertValues
 
-    }
+    public static void addToPQ(String response, PriorityQueue <Integer> pq)
+    {
+        switch(response.toLowerCase())
+        {
+            case "strength":
+            {
+                
+                
+                pq.add(barbarian.get("Strength"));
+                pq.add(bard.get("Strength"));
+                pq.add(cleric.get("Strength"));
+                pq.add(druid.get("Strength"));
+                pq.add(fighter.get("Strength"));
+                pq.add(wizard.get("Strength"));
+                pq.add(monk.get("Strength"));
+                pq.add(paladin.get("Strength"));
+                pq.add(ranger.get("Strength"));
+                pq.add(sorcerer.get("Strength"));
+                pq.add(thief.get("Strength"));
+                pq.add(warlock.get("Strength"));
+
+
+                            //      *Chara name      *Chara type      *Stat   *Stat level      
+            //public static HashMap <String, HashMap <String, HashMap <String, Integer>>> characters
+                //Go through every value in barbarians statlevels to find the 
+                for(String key : characters.keySet())
+                {
+                    //check if characters contains the strength stat and match it?
+                   //if(characters.get().contains(pq.element(key)))
+                }
+
+            }
+            case "dexterity":
+            {
+                pq.add(barbarian.get("Dexterity"));
+                pq.add(bard.get("Dexterity"));
+                pq.add(cleric.get("Dexterity"));
+                pq.add(druid.get("Dexterity"));
+                pq.add(fighter.get("Dexterity"));
+                pq.add(wizard.get("Dexterity"));
+                pq.add(monk.get("Dexterity"));
+                pq.add(paladin.get("Dexterity"));
+                pq.add(ranger.get("Dexterity"));
+                pq.add(sorcerer.get("Dexterity"));
+                pq.add(thief.get("Dexterity"));
+                pq.add(warlock.get("Dexterity"));
+            }
+            case "constitution":
+            {
+                pq.add(barbarian.get("Consitution"));
+                pq.add(bard.get("Consitution"));
+                pq.add(cleric.get("Consitution"));
+                pq.add(druid.get("Consitution"));
+                pq.add(fighter.get("Consitution"));
+                pq.add(wizard.get("Consitution"));
+                pq.add(monk.get("Consitution"));
+                pq.add(paladin.get("Consitution"));
+                pq.add(ranger.get("Consitution"));
+                pq.add(sorcerer.get("Consitution"));
+                pq.add(thief.get("Consitution"));
+                pq.add(warlock.get("Consitution"));
+            }
+            case "intelligence":
+            {
+                pq.add(barbarian.get("Intelligence"));
+                pq.add(bard.get("Intelligence"));
+                pq.add(cleric.get("Intelligence"));
+                pq.add(druid.get("Intelligence"));
+                pq.add(fighter.get("Intelligence"));
+                pq.add(wizard.get("Intelligence"));
+                pq.add(monk.get("Intelligence"));
+                pq.add(paladin.get("Intelligence"));
+                pq.add(ranger.get("Intelligence"));
+                pq.add(sorcerer.get("Intelligence"));
+                pq.add(thief.get("Intelligence"));
+                pq.add(warlock.get("Intelligence"));
+            }
+            case "wisdom":
+            {
+                pq.add(barbarian.get("Wisdom"));
+                pq.add(bard.get("Wisdom"));
+                pq.add(cleric.get("Wisdom"));
+                pq.add(druid.get("Wisdom"));
+                pq.add(fighter.get("Wisdom"));
+                pq.add(wizard.get("Wisdom"));
+                pq.add(monk.get("Wisdom"));
+                pq.add(paladin.get("Wisdom"));
+                pq.add(ranger.get("Wisdom"));
+                pq.add(sorcerer.get("Wisdom"));
+                pq.add(thief.get("Wisdom"));
+                pq.add(warlock.get("Wisdom"));
+            }
+            case "charisma":
+            {
+                pq.add(barbarian.get("Charisma"));
+                pq.add(bard.get("Charisma"));
+                pq.add(cleric.get("Charisma"));
+                pq.add(druid.get("Charisma"));
+                pq.add(fighter.get("Charisma"));
+                pq.add(wizard.get("Charisma"));
+                pq.add(monk.get("Charisma"));
+                pq.add(paladin.get("Charisma"));
+                pq.add(ranger.get("Charisma"));
+                pq.add(sorcerer.get("Charisma"));
+                pq.add(thief.get("Charisma"));
+                pq.add(warlock.get("Charisma"));
+            }
+        }//End switch statement
+    }//End addToPQ
 }
