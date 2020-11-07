@@ -1,11 +1,20 @@
+/**
+ * DNDSort reads input from a file 'characters.txt' with twelve D&D character profiles.
+ * It sorts the profiles into a triple-nested Hashmap storing their names, types, stats, and stat levels.
+ * The user then inputs which stat they'd like to sort the D&D characters by.
+ * Using a PriorityQueue, the program sorts the characters by the chosen stat in ascending order.
+ * It outputs them and continues to ask the user for more stats to sort by, until the user ends the loop.
+ * 
+ * @author Jazmin Collins
+ */
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
 public class DNDSort
 {
-    //One big HashMap that sorts them by chara name, first inner HashMap sorts by their type,
-    //second inner HashMap sorts by the stat and the stat has an associated num value
+    //Triple-nested HashMap that sorts profiles by chara name, first inner HashMap sorts by their type,
+    //second inner HashMap sorts by the stat and the stat has an associated num value called stat level.
     //      *Chara name      *Chara type      *Stat   *Stat level      
     public static HashMap <String, HashMap <String, HashMap <String, Integer>>> characters = new HashMap<String, HashMap <String, HashMap <String, Integer>>>();
 
@@ -29,7 +38,13 @@ public class DNDSort
         }
         System.out.println("\nThank you for using the sorting program! We hope you found a character that suits you!");
     }
-
+    /**
+     * Takes the file 'characters.txt' and reads in the data from its twelve character profiles.
+     * Stores stat and stat level in a HashMap which will be the innermost HashMap overall.
+     * Passes character name, type, and the innerHashMap to insertValues().
+     * 
+     * @throws FileNotFoundException
+     */
     public static void readValues() throws FileNotFoundException
     {
         File file = new File("DND-Sorting-main\\characters.txt"); 
@@ -101,94 +116,102 @@ public class DNDSort
             //Call a method to place the found values for each character in our HashMap
             insertValues(charaName, charaType, tempHashInner);
         } //End of while loop
-    }
-
+    }//End of readValues()
+    /**
+     * Takes values passed by readValues() method and inserts them into nested HashMaps accordingly.
+     * The value type is used in a new HashMap as a key for tempHashInner holding stats and stat levels.
+     * The value name is used as a key in the triple-nested HashMap characters where the other HMs are put.
+     * 
+     * @param name
+     * @param type
+     * @param tempHashInner
+     */
     public static void insertValues(String name, String type, HashMap <String, Integer> tempHashInner)
     {
         HashMap <String, HashMap<String, Integer>> tempHashOuter = new HashMap <String, HashMap<String, Integer>>();
-        HashMap <String, Integer> barbarian = new HashMap <String, Integer>();
-        HashMap <String, Integer> bard = new HashMap <String, Integer>();
-        HashMap <String, Integer> cleric = new HashMap <String, Integer>();
-        HashMap <String, Integer> druid = new HashMap <String, Integer>();
-        HashMap <String, Integer> fighter = new HashMap <String, Integer>();
-        HashMap <String, Integer> wizard = new HashMap <String, Integer>();
-        HashMap <String, Integer> monk = new HashMap <String, Integer>();
-        HashMap <String, Integer> paladin = new HashMap <String, Integer>();
-        HashMap <String, Integer> ranger = new HashMap <String, Integer>();
-        HashMap <String, Integer> sorcerer = new HashMap <String, Integer>();
-        HashMap <String, Integer> thief = new HashMap <String, Integer>();
-        HashMap <String, Integer> warlock = new HashMap <String, Integer>();
         //Switch statement that puts the innerHM into different outerHM based on the type
         switch(type)
         {
             case "Barbarian":
             {
+                HashMap <String, Integer> barbarian = new HashMap <String, Integer>();
                 barbarian.putAll(tempHashInner);
                 tempHashOuter.put(type, barbarian);
                 break;
             }
             case "Bard":
             {
+                HashMap <String, Integer> bard = new HashMap <String, Integer>();
                 bard.putAll(tempHashInner);
                 tempHashOuter.put(type, bard);
                 break;
             }
             case "Cleric":
             {
+                HashMap <String, Integer> cleric = new HashMap <String, Integer>();
                 cleric.putAll(tempHashInner);
                 tempHashOuter.put(type, cleric);
                 break;
             }
             case "Druid":
             {
+                HashMap <String, Integer> druid = new HashMap <String, Integer>();
                 druid.putAll(tempHashInner);
                 tempHashOuter.put(type, druid);
                 break;
             }
             case "Fighter":
             {
+                HashMap <String, Integer> fighter = new HashMap <String, Integer>();
                 fighter.putAll(tempHashInner);
                 tempHashOuter.put(type, fighter);
                 break;
             }
             case "Wizard":
             {
+                HashMap <String, Integer> wizard = new HashMap <String, Integer>();
                 wizard.putAll(tempHashInner);
                 tempHashOuter.put(type, wizard);
                 break;
             }
             case "Monk":
             {
+                HashMap <String, Integer> monk = new HashMap <String, Integer>();
                 monk.putAll(tempHashInner);
                 tempHashOuter.put(type, monk);
                 break;
             }
             case "Paladin":
             {
+                HashMap <String, Integer> paladin = new HashMap <String, Integer>();
                 paladin.putAll(tempHashInner);
                 tempHashOuter.put(type, paladin);
                 break;
             }
             case "Ranger":
             {
+                HashMap <String, Integer> ranger = new HashMap <String, Integer>();
                 ranger.putAll(tempHashInner);
                 tempHashOuter.put(type, ranger);
                 break;
             }
             case "Sorcerer":
             {
+                HashMap <String, Integer> sorcerer = new HashMap <String, Integer>();
                 sorcerer.putAll(tempHashInner);
                 tempHashOuter.put(type, sorcerer);
                 break;
             }
             case "Thief":
             {
+                HashMap <String, Integer> thief = new HashMap <String, Integer>();
                 thief.putAll(tempHashInner);
                 tempHashOuter.put(type, thief);
                 break;
             }
             case "Warlock":
             {
+                HashMap <String, Integer> warlock = new HashMap <String, Integer>();
                 warlock.putAll(tempHashInner);
                 tempHashOuter.put(type, warlock);
                 break;
@@ -196,7 +219,14 @@ public class DNDSort
         }//End of switch statement
         characters.put(name, tempHashOuter);
     }//End of insertValues
-
+    /**
+     * Takes the user's input for the skill to sort by and finds the corresponding skill in characters.
+     * Adds the stat level matching with the skill to the PriorityQueue to sort them in ascending order.
+     * Dives back into each level of the characters HM to retrieve character data that corresponds with the
+     * now-ordered skills.
+     * If (and only if) it finds a match, it will pop the value from the PQ and print it with the other data.
+     * In doing so, it prints out the characters and their data in ascending order.
+     */
     public static void sortValues(String response, PriorityQueue <Integer> pq)
     {
         switch(response.toLowerCase())
@@ -216,15 +246,15 @@ public class DNDSort
                 pq.add(characters.get("Anna Prentice").get("Thief").get("Strength"));
                 pq.add(characters.get("Billy Rubin").get("Warlock").get("Strength"));
                 System.out.println("\nThe characters are sorted in ascending order by Strength:\n");
-                //put everything here in a while loop for while pq is not empty because we peek
-                //to check the strongest value and if it matches, then we poll
+                //Put everything in a while loop based on while pq is not empty.
+                //Peek to check the lowest value and if it matches, then we poll and remove elements.
                 while(!pq.isEmpty())
                 {
                     int comparePQ = pq.peek();
                     //For every Chara name
                     for(String name : characters.keySet())
                     {
-                        //For every Chara type under that name (there's only one for each)
+                        //For every Chara type under that name (there's only one for each HM)
                         for(String type : characters.get(name).keySet())
                         {   
                             //Get the value at our chosen stat and compare it to the value in pq
