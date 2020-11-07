@@ -8,18 +8,7 @@ public class DNDSort
     //second inner HashMap sorts by the stat and the stat has an associated num value
     //      *Chara name      *Chara type      *Stat   *Stat level      
     public static HashMap <String, HashMap <String, HashMap <String, Integer>>> characters = new HashMap<String, HashMap <String, HashMap <String, Integer>>>();
-    public static HashMap <String, Integer> barbarian = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> bard = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> cleric = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> druid = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> fighter = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> wizard = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> monk = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> paladin = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> ranger = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> sorcerer = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> thief = new HashMap <String, Integer>();
-    public static HashMap <String, Integer> warlock = new HashMap <String, Integer>();
+    
     public static void main(String[] args) throws FileNotFoundException
     {   
         readValues();
@@ -30,18 +19,18 @@ public class DNDSort
 
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
 
-        while(!response.equals("recursion!"))
-        {
+        //while(!response.equals("recursion!"))
+        //{
             addToPQ(response, pq);
-            pq.clear();
-        }
+           // pq.clear();
+        //}
         System.out.println("Thanks for testing it out!");
     }
 
     public static void readValues() throws FileNotFoundException
     {
         File file = new File("DND-Sorting-main\\characters.txt"); 
-        Scanner scan = new Scanner(file); 
+        Scanner scan = new Scanner(file);
         
         //Values to place in our HashMap
         String charaName = "";
@@ -114,6 +103,18 @@ public class DNDSort
     public static void insertValues(String name, String type, HashMap <String, Integer> tempHashInner)
     {
         HashMap <String, HashMap<String, Integer>> tempHashOuter = new HashMap <String, HashMap<String, Integer>>();
+        HashMap <String, Integer> barbarian = new HashMap <String, Integer>();
+        HashMap <String, Integer> bard = new HashMap <String, Integer>();
+        HashMap <String, Integer> cleric = new HashMap <String, Integer>();
+        HashMap <String, Integer> druid = new HashMap <String, Integer>();
+        HashMap <String, Integer> fighter = new HashMap <String, Integer>();
+        HashMap <String, Integer> wizard = new HashMap <String, Integer>();
+        HashMap <String, Integer> monk = new HashMap <String, Integer>();
+        HashMap <String, Integer> paladin = new HashMap <String, Integer>();
+        HashMap <String, Integer> ranger = new HashMap <String, Integer>();
+        HashMap <String, Integer> sorcerer = new HashMap <String, Integer>();
+        HashMap <String, Integer> thief = new HashMap <String, Integer>();
+        HashMap <String, Integer> warlock = new HashMap <String, Integer>();
         //Switch statement that puts the innerHM into different outerHM based on the type
         switch(type)
         {
@@ -199,33 +200,50 @@ public class DNDSort
         {
             case "strength":
             {
-                
-                
-                pq.add(barbarian.get("Strength"));
-                pq.add(bard.get("Strength"));
-                pq.add(cleric.get("Strength"));
-                pq.add(druid.get("Strength"));
-                pq.add(fighter.get("Strength"));
-                pq.add(wizard.get("Strength"));
-                pq.add(monk.get("Strength"));
-                pq.add(paladin.get("Strength"));
-                pq.add(ranger.get("Strength"));
-                pq.add(sorcerer.get("Strength"));
-                pq.add(thief.get("Strength"));
-                pq.add(warlock.get("Strength"));
+                pq.add(characters.get("Alf A. Romeo").get("Barbarian").get("Strength"));
+                //pq.add(barbarian.get("Strength"));
+                pq.add(characters.get("Chip Munk").get("Bard").get("Strength"));
+                //pq.add(bard.get("Strength"));
+                pq.add(characters.get("Barry Cade").get("Cleric").get("Strength"));
+                //pq.add(cleric.get("Strength"));
+                pq.add(characters.get("Brock Lee").get("Druid").get("Strength"));
+                //pq.add(druid.get("Strength"));
+                pq.add(characters.get("Anna Sasin").get("Fighter").get("Strength"));
+                //pq.add(fighter.get("Strength"));
+                pq.add(characters.get("Cam Payne").get("Wizard").get("Strength"));
+                //pq.add(wizard.get("Strength"));
+                pq.add(characters.get("Cara Van").get("Monk").get("Strength"));
+                //pq.add(monk.get("Strength"));
+                pq.add(characters.get("Casey Macy").get("Paladin").get("Strength"));
+                //pq.add(paladin.get("Strength"));
+                pq.add(characters.get("Claire Annette Reed").get("Ranger").get("Strength"));
+                //pq.add(ranger.get("Strength"));
+                pq.add(characters.get("Anne Teak").get("Sorcerer").get("Strength"));
+                //pq.add(sorcerer.get("Strength"));
+                pq.add(characters.get("Anna Prentice").get("Thief").get("Strength"));
+                //pq.add(thief.get("Strength"));
+                pq.add(characters.get("Billy Rubin").get("Warlock").get("Strength"));
+                //pq.add(warlock.get("Strength"));
 
-
-                            //      *Chara name      *Chara type      *Stat   *Stat level      
-            //public static HashMap <String, HashMap <String, HashMap <String, Integer>>> characters
-                //Go through every value in barbarians statlevels to find the 
-                for(String key : characters.keySet())
+                //put everything here in a while loop for while pq is not empty because we peek
+                //to check the strongest value and if it matches, then we poll
+                while(!pq.isEmpty())
                 {
-                    //check if characters contains the strength stat and match it?
-                   //if(characters.get().contains(pq.element(key)))
-                }
-
+                    int comparePQ = pq.peek();
+                    //For every Chara name
+                    for(String name : characters.keySet())
+                    {
+                        //For every Chara type under that name (there's only one for each)
+                        for(String type : characters.get(name).keySet())
+                        {   
+                            //Get the value at our Strength stat and compare it to the value in pq
+                            if(comparePQ == characters.get(name).get(type).get("Strength"))
+                                System.out.println(type + " - " + name + "(" + pq.poll() + ")");
+                        }
+                    }
+                }//End of while loop for running through pq
             }
-            case "dexterity":
+            /*case "dexterity":
             {
                 pq.add(barbarian.get("Dexterity"));
                 pq.add(bard.get("Dexterity"));
@@ -299,7 +317,7 @@ public class DNDSort
                 pq.add(sorcerer.get("Charisma"));
                 pq.add(thief.get("Charisma"));
                 pq.add(warlock.get("Charisma"));
-            }
+            }*/
         }//End switch statement
     }//End addToPQ
 }
